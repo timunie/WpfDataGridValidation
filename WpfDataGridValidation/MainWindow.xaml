@@ -1,0 +1,59 @@
+﻿<Window x:Class="WpfDataGridValidation.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfDataGridValidation"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <StackPanel>
+        <Label Content="DataGrid with records with IDataErrorInfo" />
+        <DataGrid
+            ItemsSource="{Binding RecordsV1}"
+            CanUserAddRows="False"
+            CanUserSortColumns="False"
+            CanUserResizeColumns="False"
+            CanUserResizeRows="False"
+            CanUserReorderColumns="False"    
+            SelectionMode="Single"
+            SelectionUnit="Cell"
+            AutoGenerateColumns="False"
+            VerticalAlignment="Top"
+            HorizontalAlignment="Left"
+            GridLinesVisibility="All"
+            VirtualizingStackPanel.VirtualizationMode="Standard"
+            HeadersVisibility="All"
+            RowHeaderWidth="40"
+            >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True, NotifyOnValidationError=True}"/>
+                <DataGridTextColumn Binding="{Binding Error, Mode=OneWay}" Header="Error"/>
+                <DataGridTextColumn Binding="{Binding (Validation.HasError), Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}}" Header="Validation.HasError"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Label Content="DataGrid with records with INotifyDataErrorInfo" />
+        <DataGrid
+            ItemsSource="{Binding RecordsV2}"
+            CanUserAddRows="False"
+            CanUserSortColumns="False"
+            CanUserResizeColumns="False"
+            CanUserResizeRows="False"
+            CanUserReorderColumns="False"    
+            SelectionMode="Single"
+            SelectionUnit="Cell"
+            AutoGenerateColumns="False"
+            VerticalAlignment="Top"
+            HorizontalAlignment="Left"
+            GridLinesVisibility="All"
+            VirtualizingStackPanel.VirtualizationMode="Standard"
+            HeadersVisibility="All"
+            RowHeaderWidth="40"
+            >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True, NotifyOnValidationError=True}"/>
+                <DataGridTextColumn Binding="{Binding HasErrors, Mode=OneWay}" Header="HasErrors"/>
+                <DataGridTextColumn Binding="{Binding (Validation.HasError), Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}}" Header="Validation.HasError"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </StackPanel>
+</Window>
