@@ -7,7 +7,7 @@ namespace WpfDataGridValidation.Validators
     {
         public MyRecordV1Validator()
         {
-            RuleFor(x => x.Name).NotEmpty();
+            RuleFor(x => x.Name).Length(5,10);
         }
     }
 }
