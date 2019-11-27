@@ -16,7 +16,12 @@ namespace WpfDataGridValidation
         public MainWindowViewModel()
         {
             RecordsV1 = new ObservableCollection<MyRecordV1>(Enumerable.Repeat(new MyRecordV1(new MyRecordV1Validator()), 1));
-            RecordsV2 = new ObservableCollection<MyRecordV2>(Enumerable.Repeat(new MyRecordV2(new MyRecordV2Validator()), 1));
+            RecordsV2 = new ObservableCollection<MyRecordV2>();
+            for (int i = 0; i < 100; i++)
+            {
+                RecordsV2.Add(new MyRecordV2(new MyRecordV2Validator()));
+            }
+            
         }
 
         public ObservableCollection<MyRecordV1> RecordsV1 { get; set; }

@@ -30,10 +30,20 @@ namespace WpfDataGridValidation.Models
             {
                 _name = value;
                 Validate();
-                ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(nameof(Name)));
                 NotifyOfPropertyChange(nameof(Name));
-                NotifyOfPropertyChange(nameof(HasErrors));
-                NotifyOfPropertyChange(nameof(Error));
+            }
+        }
+
+
+         int _age;
+        public int Age
+        {
+            get => _age;
+            set
+            {
+                _age = value;
+                Validate();
+                NotifyOfPropertyChange(nameof(Age));
             }
         }
 
@@ -43,9 +53,22 @@ namespace WpfDataGridValidation.Models
 
         public IEnumerable GetErrors(string propertyName)
         {
-            if (string.IsNullOrEmpty(propertyName) || !_errors.TryGetValue(propertyName, out List<string> value))
+            // This is to return all Errors
+            if (propertyName == string.Empty)
+            {
+                return _errors.Values.SelectMany(x => x);
+            }
+            
+            // This is to select an Error by Property
+            if (propertyName == null || !_errors.TryGetValue(propertyName, out List<string> value))
+            {
                 return null;
-            return value;
+            }
+            else
+            {
+                return value;
+            }    
+            
         }
 
         private void Validate()
@@ -57,8 +80,14 @@ namespace WpfDataGridValidation.Models
                 .Errors
                 .GroupBy(x => x.PropertyName)
                 .ToDictionary(x => x.Key, x => x.Select(y => y.ErrorMessage).ToList());
+
+            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(nameof(Name)));
+            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(nameof(Age)));
+
+            NotifyOfPropertyChange(nameof(HasErrors));
         }
 
-        public string Error => _errors.Any() ? _errors.First().Value.FirstOrDefault() : null;
+        // Returns a List of all the errors
+        public IEnumerable Errors => GetErrors(string.Empty); 
     }
 }
