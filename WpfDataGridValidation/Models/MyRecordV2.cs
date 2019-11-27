@@ -33,6 +33,7 @@ namespace WpfDataGridValidation.Models
                 ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(nameof(Name)));
                 NotifyOfPropertyChange(nameof(Name));
                 NotifyOfPropertyChange(nameof(HasErrors));
+                NotifyOfPropertyChange(nameof(Error));
             }
         }
 
@@ -57,5 +58,7 @@ namespace WpfDataGridValidation.Models
                 .GroupBy(x => x.PropertyName)
                 .ToDictionary(x => x.Key, x => x.Select(y => y.ErrorMessage).ToList());
         }
+
+        public string Error => _errors.Any() ? _errors.First().Value.FirstOrDefault() : null;
     }
 }
